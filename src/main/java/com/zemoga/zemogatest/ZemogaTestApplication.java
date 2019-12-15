@@ -17,8 +17,6 @@ public class ZemogaTestApplication {
 
 		ApplicationContext context = new AnnotationConfigApplicationContext(DbConfiguration.class,PersistenceConfig.class);
 		SpringApplication.run(ZemogaTestApplication.class, args);
-		PortfolioRepository bean = context.getBean(PortfolioRepository.class);
-		bean.findById(5);
 	}
 
 }

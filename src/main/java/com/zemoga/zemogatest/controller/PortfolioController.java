@@ -6,6 +6,8 @@ import com.zemoga.zemogatest.entity.PortfolioDao;
 import com.zemoga.zemogatest.repository.PortfolioRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -23,18 +25,38 @@ public class PortfolioController {
     }
 
     @GetMapping(value = "/user_info/{idPortfolio}")
-    public PortfolioDto getPortfolio(@PathVariable("idPortfolio") Integer idPortfolio){
-        LOGGER.info("Calling /user_info with idPortfolio [{}]", idPortfolio);
-        PortfolioDao portfolioDao = portfolioRepository.findById(idPortfolio);
-        return portfolioConverter.convertToDto(portfolioDao);
+    public ResponseEntity getPortfolio(@PathVariable("idPortfolio") Integer idPortfolio){
+        ResponseEntity response;
+        try {
+            LOGGER.info("Calling /user_info with idPortfolio [{}]", idPortfolio);
+            PortfolioDao portfolioDao = portfolioRepository.findById(idPortfolio);
+            if(portfolioDao == null) {
+                response = new ResponseEntity("Theres no Portfolio with id "+ idPortfolio, HttpStatus.BAD_REQUEST);
+            } else {
+                PortfolioDto portfolioDto = portfolioConverter.convertToDto(portfolioDao);
+                response = new ResponseEntity(portfolioDto, HttpStatus.OK);
+            }
+        } catch (Exception e){
+            LOGGER.error("There was an exception calling PortfolioController#getPortfolio ",e);
+            response = new ResponseEntity("Could not porcess your request", HttpStatus.BAD_REQUEST);
+        }
+        return response;
     }
 
     @PutMapping(value = "/modify_user_info")
-    public PortfolioDto addPortfolio(@RequestBody PortfolioDto portfolioDto){
-        LOGGER.info("Calling /modify_user_info with PortfolioDto [{}]", portfolioDto);
-        PortfolioDao portfolioDao = portfolioConverter.convertToDao(portfolioDto);
-        PortfolioDao response = portfolioRepository.save(portfolioDao);
-        return portfolioConverter.convertToDto(response);
+    public ResponseEntity addPortfolio(@RequestBody PortfolioDto portfolioDto){
+        ResponseEntity response;
+        try {
+            LOGGER.info("Calling /modify_user_info with PortfolioDto [{}]", portfolioDto);
+            PortfolioDao portfolioDao = portfolioConverter.convertToDao(portfolioDto);
+            PortfolioDao portfolioDaoResponse = portfolioRepository.save(portfolioDao);
+            PortfolioDto convertedDto = portfolioConverter.convertToDto(portfolioDaoResponse);
+            response = new ResponseEntity(convertedDto, HttpStatus.OK);
+        }catch (Exception e){
+            LOGGER.error("There was an exception calling PortfolioController#getPortfolio ",e);
+            response = new ResponseEntity("Could not porcess your request", HttpStatus.BAD_REQUEST);
+        }
+        return response;
     }
 
 }

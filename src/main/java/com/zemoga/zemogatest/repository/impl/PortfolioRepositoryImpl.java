@@ -35,7 +35,7 @@ public class PortfolioRepositoryImpl implements PortfolioRepository {
     }
 
     @Transactional(readOnly = true)
-    public PortfolioDao findOneByAttribute( String attribute, String value) {
+    protected PortfolioDao findOneByAttribute( String attribute, String value) {
 
         StringBuilder stringQuery = new StringBuilder();
         stringQuery.append("from PortfolioDao where ")
