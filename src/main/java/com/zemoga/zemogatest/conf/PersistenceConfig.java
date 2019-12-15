@@ -16,14 +16,14 @@ import java.io.IOException;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan(basePackages = "com.zemoga.zemogatest")
+@ComponentScan("com.zemoga.zemogatest")
 @EnableTransactionManagement
 public class PersistenceConfig {
 
     private final String hibernateHbm2ddl= "hibernate.hbm2ddl.auto";
     private final String hibernateDialect = "hibernate.dialect";
     private final String hibernateShowSql = "hibernate.show_sql";
-    private final String packageToScan = "com.zemoga.zemogatest.conf";
+    private final String packageToScan = "com.zemoga.zemogatest.entity";
 
     @Bean
     public DataSource dataSource(DbConfiguration dbConfiguration) {
