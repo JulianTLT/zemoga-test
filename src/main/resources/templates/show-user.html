@@ -9,12 +9,23 @@
         <img th:src="${portfolioDto.imageUrl}"/>
     </div>
     <div>
-        <p>NAME:</p>
+        <h2>NAME:</h2>
         <p th:text="${portfolioDto.title}"></p>
     </div>
     <div>
-        <p>Work Experience:</p>
+        <h2>WORK EXPERIENCE:</h2>
         <p th:text="${portfolioDto.description}"></p>
+    </div>
+
+    <div>
+        <h2>TWEETS</h2>
+        <table>
+            <tbody>
+                <tr th:each="tweet : ${tweets}">
+                    <td><p th:text="${tweet}"></p><br/></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>
