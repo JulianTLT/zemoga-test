@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <img th:src="${portfolioDto.imageUrl}"/>
+    </div>
+    <div>
+        <p>NAME:</p>
+        <p th:text="${portfolioDto.title}"></p>
+    </div>
+    <div>
+        <p>Work Experience:</p>
+        <p th:text="${portfolioDto.description}"></p>
+    </div>
+</body>
+</html>
